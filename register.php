@@ -1,3 +1,4 @@
+<?php // TESTING LIVE UPDATE ?>
 <?php
 session_start();
 include 'config.php';

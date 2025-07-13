@@ -1,0 +1,305 @@
+/* --- HEADER STYLES --- */
+.header-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    min-height: 72px;
+}
+.header-logo {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    margin-right: 32px;
+}
+.header-logo img {
+    height: 48px;
+    width: auto;
+    display: block;
+}
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #222;
+    margin-right: 32px;
+}
+.header-nav a {
+    color: #222;
+    text-decoration: none;
+    padding: 0 8px;
+    transition: color 0.2s;
+}
+.header-nav a:hover {
+    color: #3498db;
+}
+.header-search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    max-width: 480px;
+    margin: 0 32px;
+}
+.header-search input[type="text"] {
+    width: 100%;
+    padding: 10px 16px 10px 36px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background: #f6f6f6;
+    outline: none;
+}
+.header-search .search-icon {
+    position: absolute;
+    margin-left: 12px;
+    color: #888;
+    font-size: 1.1rem;
+}
+.header-actions {
+    display: flex;
+    align-items: flex-end;
+    gap: 32px;
+    margin-left: 32px;
+}
+.header-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #222;
+    text-decoration: none;
+    font-size: 0.98rem;
+    font-weight: 500;
+    position: relative;
+    min-width: 48px;
+    transition: color 0.2s;
+}
+.header-action-btn .header-icon {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+}
+.header-action-btn .header-badge {
+    position: absolute;
+    top: 0;
+    right: 8px;
+    background: #e74c3c;
+    color: #fff;
+    font-size: 0.85rem;
+    border-radius: 50%;
+    padding: 2px 6px;
+    min-width: 18px;
+    text-align: center;
+    font-weight: 600;
+}
+.header-action-btn:hover {
+    color: #3498db;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    color: #222;
+    padding-top: 80px; /* for fixed header */
+}
+
+/* --- BUTTONS --- */
+button, .qty-btn, .cart-form button[type="submit"], .fav-btn {
+    font-family: inherit;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0 2px;
+    box-shadow: 0 1px 2px rgba(44,62,80,0.04);
+}
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    background: #f0f0f0;
+    color: #2c3e50;
+    border: 1px solid #ccc;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+}
+.qty-btn:hover {
+    background: #3498db;
+    color: #fff;
+}
+.cart-form button[type="submit"] {
+    background: #3498db;
+    color: #fff;
+    padding: 8px 18px;
+    margin-left: 8px;
+    border: none;
+    font-size: 1rem;
+}
+.cart-form button[type="submit"]:hover {
+    background: #217dbb;
+}
+.fav-btn {
+    background: #fff;
+    color: #e74c3c;
+    font-size: 1.5rem;
+    border: 1px solid #e74c3c;
+    padding: 4px 12px;
+    margin-left: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+.fav-btn.fav {
+    background: #e74c3c;
+    color: #fff;
+}
+.fav-btn:hover {
+    background: #fbeaea;
+    color: #c0392b;
+}
+
+.cart-form {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.cart-form input[type="text"] {
+    width: 36px;
+    height: 32px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin: 0 2px;
+    background: #fff;
+    padding: 0;
+}
+
+/* --- PRODUCT CARDS --- */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    margin: 40px 0;
+}
+.product-item {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 28px 20px 20px 20px;
+    width: 290px;
+    box-shadow: 0 4px 16px rgba(44,62,80,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.2s, border 0.2s;
+}
+.product-item:hover {
+    box-shadow: 0 8px 32px rgba(44,62,80,0.14);
+    border: 1.5px solid #3498db;
+}
+.product-item img {
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+}
+.product-item h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.25rem;
+    color: #2c3e50;
+    font-weight: 600;
+}
+.product-item p {
+    margin: 0 0 10px 0;
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+.product-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* --- GENERAL IMPROVEMENTS --- */
+.container, .main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 16px;
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-weight: 700;
+}
+
+section {
+    margin-bottom: 48px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 10px;
+    }
+    .header-nav {
+        gap: 16px;
+        margin-right: 8px;
+    }
+    .header-actions {
+        gap: 16px;
+        margin-left: 8px;
+    }
+    .header-search {
+        margin: 8px 0;
+        max-width: 100vw;
+    }
+    .product-list {
+        gap: 18px;
+    }
+    .product-item {
+        width: 95vw;
+        max-width: 350px;
+    }
+}
+@media (max-width: 600px) {
+    .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 4vw;
+        min-height: 48px;
+    }
+    .header-bar .auth-links {
+        margin-top: 8px;
+        gap: 8px;
+    }
+    .product-item img {
+        width: 90vw;
+        max-width: 320px;
+        height: 160px;
+    }
+} 

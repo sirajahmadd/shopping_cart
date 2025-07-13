@@ -34,7 +34,8 @@ if (isset($_POST['add']) && !empty($_POST['name']) && isset($_POST['category_id'
     $price = (float)$_POST['price'];
     $image_url = $conn->real_escape_string($_POST['image_url']);
     $category_id = (int)$_POST['category_id'];
-    $conn->query("INSERT INTO products (name, description, price, image_url, category_id) VALUES ('$name', '$desc', $price, '$image_url', $category_id)");
+    $stock = isset($_POST['stock']) ? (int)$_POST['stock'] : 0;
+    $conn->query("INSERT INTO products (name, description, price, image_url, category_id, stock) VALUES ('$name', '$desc', $price, '$image_url', $category_id, $stock)");
     $product_id = $conn->insert_id;
     // Insert sizes
     if (!empty($_POST['sizes'])) {
@@ -60,7 +61,8 @@ if (isset($_POST['edit']) && isset($_POST['id']) && !empty($_POST['name']) && is
     $price = (float)$_POST['price'];
     $image_url = $conn->real_escape_string($_POST['image_url']);
     $category_id = (int)$_POST['category_id'];
-    $conn->query("UPDATE products SET name = '$name', description = '$desc', price = $price, image_url = '$image_url', category_id = $category_id WHERE id = $id");
+    $stock = isset($_POST['stock']) ? (int)$_POST['stock'] : 0;
+    $conn->query("UPDATE products SET name = '$name', description = '$desc', price = $price, image_url = '$image_url', category_id = $category_id, stock = $stock WHERE id = $id");
     // Update sizes
     $conn->query("DELETE FROM product_sizes WHERE product_id = $id");
     if (!empty($_POST['sizes'])) {
@@ -232,6 +234,7 @@ $products = $conn->query("SELECT * FROM products ORDER BY id ASC");
         <input type="text" name="description" placeholder="Description">
         <input type="number" step="0.01" name="price" placeholder="Price" required>
         <input type="text" name="image_url" placeholder="Image URL">
+        <input type="number" name="stock" placeholder="Stock" min="0" required>
         <select name="category_id" required>
             <option value="">Select Category</option>
             <?php foreach (
@@ -261,7 +264,7 @@ $products = $conn->query("SELECT * FROM products ORDER BY id ASC");
     </form>
     <h2>All Products</h2>
     <table class="products-table">
-        <tr><th>ID</th><th>Name</th><th>Description</th><th class="price-col">Price</th><th class="image-col">Image URL</th><th class="cat-col">Category</th><th>Sizes</th><th>Colors</th><th class="actions-col">Actions</th></tr>
+        <tr><th>ID</th><th>Name</th><th>Description</th><th class="price-col">Price</th><th class="image-col">Image URL</th><th class="cat-col">Category</th><th>Stock</th><th>Sizes</th><th>Colors</th><th class="actions-col">Actions</th></tr>
         <?php
         // Helper to get sizes/colors for a product
         function get_product_sizes($conn, $pid) {
@@ -289,6 +292,7 @@ $products = $conn->query("SELECT * FROM products ORDER BY id ASC");
                 <td><?php echo $prod['price']; ?></td>
                 <td><?php echo htmlspecialchars($prod['image_url']); ?></td>
                 <td><?php echo isset($categories[$prod['category_id']]) ? htmlspecialchars($categories[$prod['category_id']]) : ''; ?></td>
+                <td><?php echo $prod['stock']; ?></td>
                 <td><?php echo implode(', ', array_map(function($s){return $s['name'];}, $sizes)); ?></td>
                 <td><?php echo implode(', ', array_map(function($c){return $c['name'];}, $colors)); ?></td>
                 <td class="actions-col">
@@ -318,6 +322,7 @@ $products = $conn->query("SELECT * FROM products ORDER BY id ASC");
                             <?php endforeach; ?>
                         </select>
                     </td>
+                    <td><input type="number" name="stock" value="<?php echo isset($prod['stock']) ? $prod['stock'] : 0; ?>" min="0" required></td>
                     <td>
                         <select name="sizes[]" class="multi-select" multiple>
                             <?php foreach ($all_sizes as $size): ?>

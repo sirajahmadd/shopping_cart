@@ -169,37 +169,45 @@ while ($row = $sim_result->fetch_assoc()) {
             <h2><?php echo htmlspecialchars($product['name']); ?></h2>
             <p><?php echo htmlspecialchars($product['description']); ?></p>
             <div class="price">Price: $<?php echo number_format($product['price'], 2); ?></div>
-            <form method="post" action="cart.php" style="display:inline;">
-                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                <label for="size">Size:</label>
-                <select name="size_id" id="size" required>
-                    <option value="">Select Size</option>
-                    <?php foreach (
-                        $sizes as $size): ?>
-                        <option value="<?php echo $size['id']; ?>"><?php echo htmlspecialchars($size['name']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <label for="color">Color:</label>
-                <select name="color_id" id="color" required>
-                    <option value="">Select Color</option>
-                    <?php foreach ($colors as $color): ?>
-                        <option value="<?php echo $color['id']; ?>"><?php echo htmlspecialchars($color['name']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <label for="quantity">Qty:</label>
-                <input type="number" name="quantity" id="quantity" value="1" min="1" style="width:50px;">
+            <?php if ($product['stock'] <= 0): ?>
+                <div style="color: #e74c3c; font-weight: bold; margin: 10px 0;">Out of Stock</div>
                 <div class="actions" style="display:flex;gap:16px;margin-top:24px;">
-                    <button type="submit">Add to Cart</button>
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <form method="post" action="favourites.php" style="display:inline;">
-                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                            <button type="submit" name="add_fav" style="background:#e74c3c;">&#10084; Add to Favourites</button>
-                        </form>
-                    <?php else: ?>
-                        <button style="background:#e74c3c; color:#fff; border:none; padding:10px 24px; border-radius:6px; font-size:1.08rem; font-weight:600; cursor:pointer;" onclick="favNotLoggedIn(event)">&#10084; Add to Favourites</button>
-                    <?php endif; ?>
+                    <button type="button" disabled style="background: #ccc; color: #fff; cursor: not-allowed;">Add to Cart</button>
                 </div>
-            </form>
+            <?php else: ?>
+                <form method="post" action="cart.php" style="display:inline;">
+                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    <label for="size">Size:</label>
+                    <select name="size_id" id="size" required>
+                        <option value="">Select Size</option>
+                        <?php foreach ($sizes as $size): ?>
+                            <option value="<?php echo $size['id']; ?>"><?php echo htmlspecialchars($size['name']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <label for="color">Color:</label>
+                    <select name="color_id" id="color" required>
+                        <option value="">Select Color</option>
+                        <?php foreach ($colors as $color): ?>
+                            <option value="<?php echo $color['id']; ?>"><?php echo htmlspecialchars($color['name']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <label for="quantity">Qty:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" style="width:50px;">
+                    <div class="actions" style="display:flex;gap:16px;margin-top:24px;">
+                        <button type="submit">Add to Cart</button>
+                    </div>
+                </form>
+            <?php endif; ?>
+            <div class="actions" style="display:flex;gap:16px;margin-top:24px;">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <form method="post" action="favourites.php" style="display:inline;">
+                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                        <button type="submit" name="add_fav" style="background:#e74c3c;">&#10084; Add to Favourites</button>
+                    </form>
+                <?php else: ?>
+                    <button style="background:#e74c3c; color:#fff; border:none; padding:10px 24px; border-radius:6px; font-size:1.08rem; font-weight:600; cursor:pointer;" onclick="favNotLoggedIn(event)">&#10084; Add to Favourites</button>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     <?php if (count($similar) > 0): ?>

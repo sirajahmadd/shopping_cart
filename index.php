@@ -240,37 +240,41 @@ $active_category_id = $selected_category;
         </div>
     <?php else: ?>
         <div class="product-list">
-            <?php foreach ($products as $prod): ?>
+            <?php foreach ($products as $product): ?>
                 <div class="product-item">
-                    <a href="product.php?id=<?php echo $prod['id']; ?>" style="text-decoration:none;color:inherit;">
-                        <img src="<?php echo htmlspecialchars($prod['image_url']); ?>" alt="<?php echo htmlspecialchars($prod['name']); ?>">
-                        <h3><?php echo htmlspecialchars($prod['name']); ?></h3>
+                    <a href="product.php?id=<?php echo $product['id']; ?>" style="text-decoration:none;color:inherit;">
+                        <img src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
                     </a>
-                    <p><?php echo htmlspecialchars($prod['description']); ?></p>
-                    <p>Price: $<?php echo number_format($prod['price'], 2); ?></p>
+                    <p><?php echo htmlspecialchars($product['description']); ?></p>
+                    <div>Price: $<?php echo number_format($product['price'], 2); ?></div>
                     <div class="product-actions">
-                        <form class="cart-form" method="post" action="<?php echo isset($_SESSION['user_id']) ? 'cart.php' : 'login.php'; ?>" style="display:inline-flex;align-items:center;">
-                            <input type="hidden" name="product_id" value="<?php echo $prod['id']; ?>">
-                            <button type="button" class="qty-btn" onclick="changeQty(this, -1)">-</button>
-                            <input type="text" name="quantity" value="1" class="qty-input" readonly>
-                            <button type="button" class="qty-btn" onclick="changeQty(this, 1)">+</button>
-                            <button type="submit">Add</button>
-                        </form>
+                        <?php if ($product['stock'] <= 0): ?>
+                            <button type="button" disabled style="background: #ccc; color: #fff; cursor: not-allowed;">Add to Cart</button>
+                        <?php else: ?>
+                            <form method="post" action="cart.php" class="cart-form" style="display:inline;">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                        <?php endif; ?>
                         <?php if (isset($_SESSION['user_id'])): ?>
-                        <form method="post" action="favourites.php" style="display:inline-block;">
-                            <input type="hidden" name="product_id" value="<?php echo $prod['id']; ?>">
-                            <button type="submit" name="<?php echo in_array($prod['id'], $fav_ids) ? 'remove_fav' : 'add_fav'; ?>" class="fav-btn<?php echo in_array($prod['id'], $fav_ids) ? ' fav' : ''; ?>" title="Favourite">
-                                <?php if (in_array($prod['id'], $fav_ids)): ?>
-                                    &#10084;
-                                <?php else: ?>
-                                    &#9825;
-                                <?php endif; ?>
-                            </button>
-                        </form>
+                            <form method="post" action="favourites.php" style="display:inline;">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                <button type="submit" name="<?php echo in_array($product['id'], $fav_ids) ? 'remove_fav' : 'add_fav'; ?>" class="fav-btn<?php echo in_array($product['id'], $fav_ids) ? ' fav' : ''; ?>" title="Favourite">
+                                    <?php if (in_array($product['id'], $fav_ids)): ?>
+                                        &#10084;
+                                    <?php else: ?>
+                                        &#9825;
+                                    <?php endif; ?>
+                                </button>
+                            </form>
                         <?php else: ?>
                             <button class="fav-btn" onclick="favNotLoggedIn(event)" title="Login to add to wishlist">&#9825;</button>
                         <?php endif; ?>
                     </div>
+                    <?php if ($product['stock'] <= 0): ?>
+                        <div style="color: #e74c3c; font-weight: bold; margin: 10px 0 0 0;">Out of Stock</div>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         </div>

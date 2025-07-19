@@ -2,8 +2,8 @@
 session_start();
 
 // Hardcoded admin credentials
-$admin_username = 'admin';
-$admin_password = 'admin123';
+$admin_username = 'sjhx';
+$admin_password = '45skxjbin1sdxj23';
 
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
